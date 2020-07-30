@@ -2,6 +2,16 @@
 
 A lightweight flutter package providing a miniplayer widget which resizes according to drag gestures and returns a builder function with the current height and percentage progress.
 
-## Getting Started
+## Usuage
 
-Package description will be added soon!
+```dart
+Miniplayer(
+  minHeight: 70,
+  maxHeight: 370,
+  builder: (height, percentage) {
+    return Center(
+      child: Text('$height, $percentage'),
+    );
+  },
+),
+```
