@@ -11,14 +11,16 @@ class Miniplayer extends StatefulWidget {
   final double maxHeight;
   final MiniplayerBuilder builder;
   final Curve curve;
+  final double elevation;
 
-  const Miniplayer(
-      {Key key,
-      @required this.minHeight,
-      @required this.maxHeight,
-      @required this.builder,
-      this.curve = Curves.easeInQuart})
-      : super(key: key);
+  const Miniplayer({
+    Key key,
+    @required this.minHeight,
+    @required this.maxHeight,
+    @required this.builder,
+    this.curve = Curves.easeInQuart,
+    this.elevation = 0,
+  }) : super(key: key);
 
   @override
   _MiniplayerState createState() => _MiniplayerState();
@@ -84,41 +86,50 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                   child: Container(
                       color: Colors.black.withOpacity(_percentage * 0.5)),
                 ),
-              SizedBox(
-                height: snapshot.data,
-                child: GestureDetector(
-                  child: widget.builder(snapshot.data, _percentage),
-                  onTap: () {
-                    bool up = _height != widget.maxHeight;
-                    animateToHeight(up ? widget.maxHeight : widget.minHeight);
-                  },
-                  onPanEnd: (details) async {
-                    if (_up)
-                      animateToHeight(widget.maxHeight);
-                    else
-                      animateToHeight(widget.minHeight);
-                  },
-                  onPanUpdate: (details) {
-                    _prevHeight = _height;
-                    var h = _height -=
-                        details.delta.dy; //details.delta.dy < 0 -> -- = +
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  height: snapshot.data,
+                  child: GestureDetector(
+                    child: Material(
+                      elevation: widget.elevation,
+                      child: Container(
+                        constraints: BoxConstraints.expand(),
+                        child: widget.builder(snapshot.data, _percentage),
+                      ),
+                    ),
+                    onTap: () {
+                      bool up = _height != widget.maxHeight;
+                      animateToHeight(up ? widget.maxHeight : widget.minHeight);
+                    },
+                    onPanEnd: (details) async {
+                      if (_up)
+                        animateToHeight(widget.maxHeight);
+                      else
+                        animateToHeight(widget.minHeight);
+                    },
+                    onPanUpdate: (details) {
+                      _prevHeight = _height;
+                      var h = _height -=
+                          details.delta.dy; //details.delta.dy < 0 -> -- = +
 
-                    //Make sure height !> maxHeight && !< minHeight
-                    if (h > widget.maxHeight)
-                      h = widget.maxHeight;
-                    else if (h < widget.minHeight) h = widget.minHeight;
+                      //Make sure height !> maxHeight && !< minHeight
+                      if (h > widget.maxHeight)
+                        h = widget.maxHeight;
+                      else if (h < widget.minHeight) h = widget.minHeight;
 
-                    if (_prevHeight == h &&
-                        (h == widget.minHeight || h == widget.maxHeight))
-                      return;
+                      if (_prevHeight == h &&
+                          (h == widget.minHeight || h == widget.maxHeight))
+                        return;
 
-                    //print('h: ' + h.toString());
+                      //print('h: ' + h.toString());
 
-                    _height = h;
-                    _up = _prevHeight < _height;
+                      _height = h;
+                      _up = _prevHeight < _height;
 
-                    _heightController.add(h);
-                  },
+                      _heightController.add(h);
+                    },
+                  ),
                 ),
               ),
             ],
