@@ -1,6 +1,6 @@
 # miniplayer
 
-[![Pub](https://img.shields.io/pub/v/pedantic.svg)](https://pub.dev/packages/miniplayer)
+[![Pub](https://img.shields.io/pub/v/miniplayer?color=2196F3)](https://pub.dev/packages/miniplayer)
 
 Miniplayer for Flutter
 
