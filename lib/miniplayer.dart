@@ -30,7 +30,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   double _height;
   double _prevHeight;
 
-  //Used to set Size after animation is complete
+  //Used to set the height after the animation is complete
   double _endHeight;
   bool _up;
 
@@ -110,22 +110,26 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                     },
                     onPanUpdate: (details) {
                       _prevHeight = _height;
-                      var h = _height -=
-                          details.delta.dy; //details.delta.dy < 0 -> -- = +
 
-                      //Make sure height !> maxHeight && !< minHeight
-                      if (h > widget.maxHeight)
-                        h = widget.maxHeight;
-                      else if (h < widget.minHeight) h = widget.minHeight;
+                      //details.delta.dy < 0 -> -- = +
+                      var h = _height -= details.delta.dy;
 
+                      //Makes sure that height !> maxHeight && !< minHeight
+                      if (h > widget.maxHeight) h = widget.maxHeight;
+                      if (h < widget.minHeight) h = widget.minHeight;
+
+                      //Makes sure that the widget wont rebuild unnecessarily
                       if (_prevHeight == h &&
                           (h == widget.minHeight || h == widget.maxHeight))
                         return;
 
-                      //print('h: ' + h.toString());
-
                       _height = h;
-                      _up = _prevHeight < _height;
+                      if (_height == widget.maxHeight)
+                        _up = true;
+                      else if (_height == widget.minHeight)
+                        _up = false;
+                      else
+                        _up = _prevHeight < _height;
 
                       _heightController.add(h);
                     },
@@ -149,7 +153,9 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
         CurvedAnimation(parent: _animationController, curve: widget.curve));
 
     _sizeAnimation.addListener(() {
-      _heightController.add(_sizeAnimation.value);
+      if (!(_sizeAnimation.value > widget.maxHeight) &&
+          !(_sizeAnimation.value < widget.minHeight))
+        _heightController.add(_sizeAnimation.value);
     });
     _animationController.forward();
   }
