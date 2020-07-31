@@ -12,6 +12,7 @@ class Miniplayer extends StatefulWidget {
   final MiniplayerBuilder builder;
   final Curve curve;
   final double elevation;
+  final Color backgroundColor;
 
   const Miniplayer({
     Key key,
@@ -20,6 +21,7 @@ class Miniplayer extends StatefulWidget {
     @required this.builder,
     this.curve = Curves.easeInQuart,
     this.elevation = 0,
+    this.backgroundColor = const Color(0x70000000),
   }) : super(key: key);
 
   @override
@@ -83,8 +85,10 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
               if (_percentage > 0)
                 GestureDetector(
                   onTap: () => animateToHeight(widget.minHeight),
-                  child: Container(
-                      color: Colors.black.withOpacity(_percentage * 0.5)),
+                  child: Opacity(
+                    opacity: _percentage,
+                    child: Container(color: widget.backgroundColor),
+                  ),
                 ),
               Align(
                 alignment: Alignment.bottomCenter,
