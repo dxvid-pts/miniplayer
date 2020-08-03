@@ -90,7 +90,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
           children: [
             if (_percentage > 0)
               GestureDetector(
-                onTap: () => animateToHeight(widget.minHeight),
+                onTap: () => _animateToHeight(widget.minHeight),
                 child: Opacity(
                   opacity: _percentage,
                   child: Container(color: widget.backgroundColor),
@@ -110,13 +110,13 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                   ),
                   onTap: () {
                     bool up = _height != widget.maxHeight;
-                    animateToHeight(up ? widget.maxHeight : widget.minHeight);
+                    _animateToHeight(up ? widget.maxHeight : widget.minHeight);
                   },
                   onPanEnd: (details) async {
                     if (_up)
-                      animateToHeight(widget.maxHeight);
+                      _animateToHeight(widget.maxHeight);
                     else
-                      animateToHeight(widget.minHeight);
+                      _animateToHeight(widget.minHeight);
                   },
                   onPanUpdate: (details) {
                     _prevHeight = _height;
@@ -153,7 +153,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     );
   }
 
-  void animateToHeight(final double h) {
+  void _animateToHeight(final double h) {
     _endHeight = h;
     _sizeAnimation = Tween(
       begin: _height,
