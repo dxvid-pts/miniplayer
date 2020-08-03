@@ -2,6 +2,10 @@
 
 A lightweight flutter package providing a miniplayer widget which resizes according to drag gestures and returns a builder function with the current height and percentage progress.
 
+## Demo
+
+![](https://s6.gifyu.com/images/ezgif.com-crop125b86630b69240f.gif)
+
 ## Usage
 
 ```dart
