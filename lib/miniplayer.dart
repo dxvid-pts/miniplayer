@@ -13,6 +13,7 @@ class Miniplayer extends StatefulWidget {
   final Curve curve;
   final double elevation;
   final Color backgroundColor;
+  final ValueNotifier<double> valueNotifier;
 
   const Miniplayer({
     Key key,
@@ -22,6 +23,7 @@ class Miniplayer extends StatefulWidget {
     this.curve = Curves.easeInQuart,
     this.elevation = 0,
     this.backgroundColor = const Color(0x70000000),
+    this.valueNotifier,
   }) : super(key: key);
 
   @override
@@ -29,6 +31,8 @@ class Miniplayer extends StatefulWidget {
 }
 
 class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
+  ValueNotifier<double> heightNotifier;
+
   double _height;
   double _prevHeight;
 
@@ -43,6 +47,11 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    if (widget.valueNotifier == null)
+      heightNotifier = ValueNotifier(widget.minHeight);
+    else
+      heightNotifier = widget.valueNotifier;
+
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(
@@ -53,7 +62,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _animationController.reset();
-        _heightController.add(_endHeight);
+        heightNotifier.value = _endHeight;
         _height = _endHeight;
       }
     });
@@ -71,80 +80,76 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      initialData: widget.minHeight,
-      stream: _heightController.stream,
-      builder: (context, AsyncSnapshot<double> snapshot) {
-        if (snapshot.hasData) {
-          var _percentage = ((snapshot.data - widget.minHeight)) /
-              (widget.maxHeight - widget.minHeight);
+    return ValueListenableBuilder(
+      builder: (BuildContext context, double value, Widget child) {
+        var _percentage = ((value - widget.minHeight)) /
+            (widget.maxHeight - widget.minHeight);
 
-          return Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              if (_percentage > 0)
-                GestureDetector(
-                  onTap: () => animateToHeight(widget.minHeight),
-                  child: Opacity(
-                    opacity: _percentage,
-                    child: Container(color: widget.backgroundColor),
-                  ),
-                ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  height: snapshot.data,
-                  child: GestureDetector(
-                    child: Material(
-                      elevation: widget.elevation,
-                      child: Container(
-                        constraints: BoxConstraints.expand(),
-                        child: widget.builder(snapshot.data, _percentage),
-                      ),
-                    ),
-                    onTap: () {
-                      bool up = _height != widget.maxHeight;
-                      animateToHeight(up ? widget.maxHeight : widget.minHeight);
-                    },
-                    onPanEnd: (details) async {
-                      if (_up)
-                        animateToHeight(widget.maxHeight);
-                      else
-                        animateToHeight(widget.minHeight);
-                    },
-                    onPanUpdate: (details) {
-                      _prevHeight = _height;
-
-                      //details.delta.dy < 0 -> -- = +
-                      var h = _height -= details.delta.dy;
-
-                      //Makes sure that height !> maxHeight && !< minHeight
-                      if (h > widget.maxHeight) h = widget.maxHeight;
-                      if (h < widget.minHeight) h = widget.minHeight;
-
-                      //Makes sure that the widget wont rebuild unnecessarily
-                      if (_prevHeight == h &&
-                          (h == widget.minHeight || h == widget.maxHeight))
-                        return;
-
-                      _height = h;
-                      if (_height == widget.maxHeight)
-                        _up = true;
-                      else if (_height == widget.minHeight)
-                        _up = false;
-                      else
-                        _up = _prevHeight < _height;
-
-                      _heightController.add(h);
-                    },
-                  ),
+        return Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            if (_percentage > 0)
+              GestureDetector(
+                onTap: () => animateToHeight(widget.minHeight),
+                child: Opacity(
+                  opacity: _percentage,
+                  child: Container(color: widget.backgroundColor),
                 ),
               ),
-            ],
-          );
-        } else
-          return Container();
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                height: value,
+                child: GestureDetector(
+                  child: Material(
+                    elevation: widget.elevation,
+                    child: Container(
+                      constraints: BoxConstraints.expand(),
+                      child: widget.builder(value, _percentage),
+                    ),
+                  ),
+                  onTap: () {
+                    bool up = _height != widget.maxHeight;
+                    animateToHeight(up ? widget.maxHeight : widget.minHeight);
+                  },
+                  onPanEnd: (details) async {
+                    if (_up)
+                      animateToHeight(widget.maxHeight);
+                    else
+                      animateToHeight(widget.minHeight);
+                  },
+                  onPanUpdate: (details) {
+                    _prevHeight = _height;
+
+                    //details.delta.dy < 0 -> -- = +
+                    var h = _height -= details.delta.dy;
+
+                    //Makes sure that height !> maxHeight && !< minHeight
+                    if (h > widget.maxHeight) h = widget.maxHeight;
+                    if (h < widget.minHeight) h = widget.minHeight;
+
+                    //Makes sure that the widget wont rebuild unnecessarily
+                    if (_prevHeight == h &&
+                        (h == widget.minHeight || h == widget.maxHeight))
+                      return;
+
+                    _height = h;
+                    if (_height == widget.maxHeight)
+                      _up = true;
+                    else if (_height == widget.minHeight)
+                      _up = false;
+                    else
+                      _up = _prevHeight < _height;
+
+                    heightNotifier.value = h;
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
       },
+      valueListenable: heightNotifier,
     );
   }
 
@@ -159,7 +164,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     _sizeAnimation.addListener(() {
       if (!(_sizeAnimation.value > widget.maxHeight) &&
           !(_sizeAnimation.value < widget.minHeight))
-        _heightController.add(_sizeAnimation.value);
+        heightNotifier.value = _sizeAnimation.value;
     });
     _animationController.forward();
   }
