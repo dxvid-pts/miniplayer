@@ -4,7 +4,7 @@ A lightweight flutter package providing a miniplayer widget which resizes accord
 
 ## Demo
 
-![](https://s6.gifyu.com/images/ezgif.com-crop125b86630b69240f.gif)
+<img src="https://s6.gifyu.com/images/ezgif.com-crop125b86630b69240f.gif" height="355"/>
 
 ## Usage
 
