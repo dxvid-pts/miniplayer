@@ -1,6 +1,6 @@
 [![Pub](https://img.shields.io/pub/v/miniplayer?color=2196F3)](https://pub.dev/packages/miniplayer)
 
-A lightweight flutter package providing a miniplayer widget which resizes according to drag gestures and returns a builder function with the current height and percentage progress.
+A lightweight flutter package to simplify the creation of a miniplayer by providing a builder function with the current height and percentage progress. The widget responds to tap and drag gestures and is highly customizable.
 
 ## Demo
 
