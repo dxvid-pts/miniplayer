@@ -1,5 +1,5 @@
 name: miniplayer
-description: A lightweight flutter package providing a miniplayer widget which resizes according to drag gestures and returns a builder function with the current height and percentage progress.
+description: A lightweight flutter package to simplify the creation of a miniplayer.
 version: 0.3.0
 homepage: https://www.peterscode.dev
 repository: https://github.com/peterscodee/miniplayer
