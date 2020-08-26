@@ -7,11 +7,9 @@ import 'package:flutter/material.dart';
 typedef Widget MiniplayerBuilder(double height, double percentage);
 
 class Miniplayer extends StatefulWidget {
-  final double minHeight;
-  final double maxHeight;
+  final double minHeight, maxHeight, elevation;
   final MiniplayerBuilder builder;
   final Curve curve;
-  final double elevation;
   final Color backgroundColor;
   final ValueNotifier<double> valueNotifier;
 
