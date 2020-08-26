@@ -4,7 +4,7 @@ A lightweight flutter package to simplify the creation of a miniplayer by provid
 
 ## Demo
 
-<img src="https://s6.gifyu.com/images/ezgif.com-crop125b86630b69240f.gif" height="355"/>
+![demo](./example/demo_gif/demo.gif "demo")
 
 ## Usage
 
