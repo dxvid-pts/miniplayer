@@ -11,6 +11,7 @@ class Miniplayer extends StatefulWidget {
   final MiniplayerBuilder builder;
   final Curve curve;
   final Color backgroundColor;
+  final Duration duration;
   final ValueNotifier<double> valueNotifier;
 
   const Miniplayer({
@@ -22,6 +23,7 @@ class Miniplayer extends StatefulWidget {
     this.elevation = 0,
     this.backgroundColor = const Color(0x70000000),
     this.valueNotifier,
+    this.duration = const Duration(milliseconds: 300),
   }) : super(key: key);
 
   @override
@@ -52,9 +54,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(
-        milliseconds: 300,
-      ),
+      duration: widget.duration,
     );
 
     _animationController.addStatusListener((status) {
