@@ -1,3 +1,7 @@
+## [0.4.1+1]
+
+* Updated example reference in readme
+
 ## [0.4.1]
 
 * Updated example
