@@ -20,6 +20,7 @@ Miniplayer(
 ),
 ```
 #### Usage without BottomNavigationBar
+This method is only recommended for simple apps. If you want to use dialogs or persistent widgets such as a BottomNavigationBar, use the second (slightly more advanced) method as described in the [example](https://pub.dev/packages/miniplayer/example) which uses Navigator as a base.
 
 ```dart
 import 'package:flutter/material.dart';
