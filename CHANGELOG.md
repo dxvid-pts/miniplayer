@@ -1,3 +1,9 @@
+## [0.4.0]
+
+* Added examples and demo images
+* Added duration property
+* Changed elevation rendering
+
 ## [0.3.0]
 
 * Migrated from StreamBuilder to ValueListenableBuilder
