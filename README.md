@@ -1,6 +1,6 @@
 [![Pub](https://img.shields.io/pub/v/miniplayer?color=2196F3)](https://pub.dev/packages/miniplayer)
 
-A lightweight flutter package to simplify the creation of a miniplayer by providing a builder function with the current height and percentage progress. The widget responds to tap and drag gestures and is highly customizable.
+A **lightweight** flutter package to simplify the creation of a miniplayer by providing a builder function with the current height and percentage progress. The widget responds to tap and drag gestures and is highly customizable.
 
 ## Demo
 
@@ -19,7 +19,7 @@ Miniplayer(
   },
 ),
 ```
-#### Default usage
+#### Usage without BottomNavigationBar
 
 ```dart
 import 'package:flutter/material.dart';
@@ -60,6 +60,4 @@ class MyApp extends StatelessWidget {
 
 #### Usage with BottomNavigationBar
 
-```
-Example coming soon!
-```
+[See example](example/miniplayer_with_bottomnav/lib/main.dart)
