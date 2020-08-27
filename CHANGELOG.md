@@ -1,3 +1,7 @@
+## [0.4.1]
+
+* Updated example
+
 ## [0.4.0]
 
 * Added examples and demo images
