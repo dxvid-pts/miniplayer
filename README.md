@@ -60,4 +60,4 @@ class MyApp extends StatelessWidget {
 
 #### Usage with BottomNavigationBar
 
-[See example](example/miniplayer_with_bottomnav/lib/main.dart)
+[See example](example/lib/main.dart)
