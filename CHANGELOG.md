@@ -1,3 +1,7 @@
+## [0.4.1+2]
+
+* Updated the readme based on a comment from [jwknows](https://www.reddit.com/r/FlutterDev/comments/ihipfr/miniplayer_functionality_in_flutter/#CommentTopMeta--Created--t1_g30dh9e:~:text=I%20might%20be%20wrong%20but%20I'm,be%20%22on%20top%22%20of%20dialogs%20etc...)
+
 ## [0.4.1+1]
 
 * Updated example reference in readme
