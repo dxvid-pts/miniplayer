@@ -50,6 +50,9 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
   bool animating = false;
 
+  ///Counts how many updates were required for a distance (onPanUpdate) -> necessary to calculate the drag speed
+  int updateCount = 0;
+
   StreamController<double> _heightController =
       StreamController<double>.broadcast();
   AnimationController _animationController;
@@ -154,8 +157,28 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                   onTap: () => snapToPosition(_dragHeight != widget.maxHeight
                       ? SnapPosition.MAX
                       : SnapPosition.MIN),
-                  onPanStart: (details) => _startHeight = _dragHeight,
+                  onPanStart: (details) {
+                    _startHeight = _dragHeight;
+                    updateCount = 0;
+                  },
                   onPanEnd: (details) async {
+                    ///Calculates drag speed
+                    double speed =
+                        (_dragHeight - _startHeight * _dragHeight < _startHeight
+                                ? 1
+                                : -1) /
+                            updateCount *
+                            100;
+
+                    ///Define the percentage distance depending on the speed with which the widget should snap
+                    double snapPercentage = 0.005;
+                    if (speed <= 4)
+                      snapPercentage = 0.2;
+                    else if (speed <= 9)
+                      snapPercentage = 0.08;
+                    else if (speed <= 50) snapPercentage = 0.01;
+
+                    ///Determine to which SnapPosition the widget should snap
                     SnapPosition snap = SnapPosition.MIN;
 
                     final _percentageMax = _percentageFromValueInRange(
@@ -165,12 +188,13 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
                     ///Started from expanded state
                     if (_startHeight > widget.minHeight) {
-                      if (_percentageMax > 0.8) snap = SnapPosition.MAX;
+                      if (_percentageMax > 1 - snapPercentage)
+                        snap = SnapPosition.MAX;
                     }
 
                     ///Started from minified state
                     else {
-                      if (_percentageMax > 0.2)
+                      if (_percentageMax > snapPercentage)
                         snap = SnapPosition.MAX;
                       else
 
@@ -179,9 +203,10 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                               min: widget.minHeight,
                               max: 0,
                               value: _dragHeight) >
-                          0.2) snap = SnapPosition.DISMISS;
+                          snapPercentage) snap = SnapPosition.DISMISS;
                     }
 
+                    ///Snap to position
                     snapToPosition(snap);
                   },
                   onPanUpdate: (details) {
@@ -189,6 +214,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                     if (dismissed) return;
 
                     _dragHeight -= details.delta.dy;
+                    updateCount++;
 
                     handleHeightChange();
                   },
@@ -265,9 +291,14 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   }
 }
 
-//Calculates the percentage of a value within a given range of values
+///Calculates the percentage of a value within a given range of values
 double _percentageFromValueInRange({final double min, max, value}) {
   return (value - min) / (max - min);
+}
+
+///Calculates n within a range of values
+double _valueFromPercentageInRange({final double min, max, percentage}) {
+  return percentage * (max - min) + min;
 }
 
 double _borderDouble({double minRange, double maxRange, double value}) {
