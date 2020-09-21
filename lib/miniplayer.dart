@@ -22,7 +22,7 @@ class Miniplayer extends StatefulWidget {
     @required this.minHeight,
     @required this.maxHeight,
     @required this.builder,
-    this.curve = Curves.easeInQuart,
+    this.curve = Curves.easeOut,
     this.elevation = 0,
     this.backgroundColor = const Color(0x70000000),
     this.valueNotifier,
