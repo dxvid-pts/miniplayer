@@ -199,11 +199,12 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                       else
 
                       ///DismissedPercentage > 0.2 -> dismiss
-                      if (_percentageFromValueInRange(
-                              min: widget.minHeight,
-                              max: 0,
-                              value: _dragHeight) >
-                          snapPercentage) snap = SnapPosition.DISMISS;
+                      if (widget.onDismiss != null &&
+                          _percentageFromValueInRange(
+                                  min: widget.minHeight,
+                                  max: 0,
+                                  value: _dragHeight) >
+                              snapPercentage) snap = SnapPosition.DISMISS;
                     }
 
                     ///Snap to position
@@ -230,11 +231,15 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
   ///Determines whether the panel should be updated in height or discarded
   void handleHeightChange() {
+    ///Drag above minHeight
     if (_dragHeight >= widget.minHeight) {
       heightNotifier.value = _dragHeight;
 
       if (dragDownPercentage.value != 0) dragDownPercentage.value = 0;
-    } else {
+    }
+
+    ///Drag below minHeight
+    else if (widget.onDismiss != null) {
       var percentageDown = _borderDouble(
           minRange: 0,
           maxRange: 1,
