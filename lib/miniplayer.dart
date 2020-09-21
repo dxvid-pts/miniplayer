@@ -130,7 +130,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
                       return Opacity(
                         opacity: _borderDouble(
-                            minRange: 0, maxRange: 1, value: 1 - value),
+                            minRange: 0, maxRange: 1, value: 1 - value * 0.8),
                         child: Transform.translate(
                           offset: Offset(0.0, widget.minHeight * value * 0.5),
                           child: child,
