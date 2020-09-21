@@ -1,6 +1,6 @@
 name: miniplayer
 description: A lightweight flutter package to simplify the creation of a miniplayer.
-version: 0.4.1+2
+version: 0.5.0
 homepage: https://www.peterscode.dev
 repository: https://github.com/peterscodee/miniplayer
 
