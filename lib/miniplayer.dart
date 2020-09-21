@@ -230,7 +230,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   }
 
   ///Determines whether the panel should be updated in height or discarded
-  void handleHeightChange() {
+  void handleHeightChange({bool animation = false}) {
     ///Drag above minHeight
     if (_dragHeight >= widget.minHeight) {
       heightNotifier.value = _dragHeight;
@@ -249,7 +249,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
       if (dragDownPercentage.value != percentageDown)
         dragDownPercentage.value = percentageDown;
 
-      if (percentageDown >= 1 && !dismissed) {
+      if (percentageDown >= 1 && animation && !dismissed) {
         if (widget.onDismiss != null) widget.onDismiss();
         setState(() {
           dismissed = true;
@@ -288,7 +288,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
       _dragHeight = _sizeAnimation.value;
 
-      handleHeightChange();
+      handleHeightChange(animation: true);
     });
 
     animating = true;
