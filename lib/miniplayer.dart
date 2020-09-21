@@ -301,11 +301,6 @@ double _percentageFromValueInRange({final double min, max, value}) {
   return (value - min) / (max - min);
 }
 
-///Calculates n within a range of values
-double _valueFromPercentageInRange({final double min, max, percentage}) {
-  return percentage * (max - min) + min;
-}
-
 double _borderDouble({double minRange, double maxRange, double value}) {
   if (value > maxRange) return maxRange;
   if (value < minRange) return minRange;
