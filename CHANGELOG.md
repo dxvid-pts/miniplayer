@@ -1,3 +1,8 @@
+## 0.5.0+1
+
+* Bug fixes.
+* Dismiss behaviour is more natural now
+
 ## 0.5.0
 
 * Added onDismiss property
