@@ -233,9 +233,11 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   void handleHeightChange({bool animation = false}) {
     ///Drag above minHeight
     if (_dragHeight >= widget.minHeight) {
-      heightNotifier.value = _dragHeight;
-
       if (dragDownPercentage.value != 0) dragDownPercentage.value = 0;
+
+      if (!animating && _dragHeight > widget.maxHeight) return;
+
+      heightNotifier.value = _dragHeight;
     }
 
     ///Drag below minHeight
