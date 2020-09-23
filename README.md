@@ -43,6 +43,7 @@ Miniplayer(
        <img src="./example/demo_gif/demo_dismiss.gif"/>
      </td>
   </tr>
+  <tr></tr>
     <tr>
       <td>valueNotifier</td>
       <td>
