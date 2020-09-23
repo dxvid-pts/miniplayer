@@ -1,3 +1,8 @@
+## 0.5.0+2
+
+* Updated documentation
+* Allow gestures to intervene in animations
+
 ## 0.5.0+1
 
 * Bug fixes.
