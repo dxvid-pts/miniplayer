@@ -26,6 +26,12 @@ Miniplayer(
 ## Options
 
 <table>
+  <tr></tr>
+  <tr>
+    <th>Parameter</th>
+    <th>Implementation</th>
+    <th>Demo</th>
+  </tr>
   <tr>
     <td>onDismiss</td>
     <td>
@@ -53,7 +59,8 @@ Miniplayer(
 //Can be used to hide the BottomNavigationBar.
 final ValueNotifier<double> playerExpandProgress =
     ValueNotifier(playerMinHeight);
-    <br />
+    
+    
 Miniplayer(
    valueNotifier: playerExpandProgress, 
 ),
