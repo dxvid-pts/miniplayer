@@ -40,7 +40,7 @@ Miniplayer(
       </pre>
     </td>
      <td>
-       <img src="./example/demo_gif/demo_dismiss.gif"/>
+       <img src="https://raw.githubusercontent.com/peterscodee/miniplayer/master/example/demo_gif/demo_dismiss.gif"/>
      </td>
   </tr>
   <tr></tr>
@@ -60,7 +60,7 @@ Miniplayer(
         </pre>
       </td>
        <td>
-         <img src="./example/demo_gif/demo_valueNotifier.gif"/>
+         <img src="https://raw.githubusercontent.com/peterscodee/miniplayer/master/example/demo_gif/demo_valueNotifier.gif"/>
        </td>
     </tr>
 </table>
