@@ -48,6 +48,9 @@ Miniplayer(
       <td>valueNotifier</td>
       <td>
         <pre lang="dart">
+//Allows you to use a global ValueNotifier 
+//with the current progress. 
+//Can be used to hide the BottomNavigationBar.
 final ValueNotifier<double> playerExpandProgress =
     ValueNotifier(playerMinHeight);
     <br />
