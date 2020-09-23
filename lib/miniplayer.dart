@@ -57,7 +57,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
       StreamController<double>.broadcast();
   AnimationController _animationController;
 
-  void statusListener(AnimationStatus status) {
+  void _statusListener(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
       //unblock touch events
       animating = false;
@@ -154,7 +154,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  onTap: () => snapToPosition(_dragHeight != widget.maxHeight
+                  onTap: () => _snapToPosition(_dragHeight != widget.maxHeight
                       ? SnapPosition.MAX
                       : SnapPosition.MIN),
                   onPanStart: (details) {
@@ -208,7 +208,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                     }
 
                     ///Snap to position
-                    snapToPosition(snap);
+                    _snapToPosition(snap);
                   },
                   onPanUpdate: (details) {
                     if (animating) return;
@@ -217,7 +217,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                     _dragHeight -= details.delta.dy;
                     updateCount++;
 
-                    handleHeightChange();
+                    _handleHeightChange();
                   },
                 ),
               ),
@@ -230,7 +230,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   }
 
   ///Determines whether the panel should be updated in height or discarded
-  void handleHeightChange({bool animation = false}) {
+  void _handleHeightChange({bool animation = false}) {
     ///Drag above minHeight
     if (_dragHeight >= widget.minHeight) {
       if (dragDownPercentage.value != 0) dragDownPercentage.value = 0;
@@ -261,7 +261,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   }
 
   ///Animates the panel height according to a SnapPoint
-  void snapToPosition(SnapPosition snapPosition) {
+  void _snapToPosition(SnapPosition snapPosition) {
     switch (snapPosition) {
       case SnapPosition.MAX:
         _animateToHeight(widget.maxHeight);
@@ -290,7 +290,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
       _dragHeight = _sizeAnimation.value;
 
-      handleHeightChange(animation: true);
+      _handleHeightChange(animation: true);
     });
 
     animating = true;
