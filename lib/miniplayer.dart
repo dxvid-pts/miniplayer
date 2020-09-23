@@ -58,17 +58,17 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   AnimationController _animationController;
 
   void _statusListener(AnimationStatus status) {
-    if (status == AnimationStatus.completed) {
-      //unblock touch events
-      animating = false;
+    if (status == AnimationStatus.completed) _resetAnimationController();
+  }
 
-      _animationController.dispose();
-      _animationController = AnimationController(
-        vsync: this,
-        duration: widget.duration,
-      );
-      _animationController.addStatusListener(statusListener);
-    }
+  void _resetAnimationController() {
+    if (_animationController != null) _animationController.dispose();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: widget.duration,
+    );
+    _animationController.addStatusListener(_statusListener);
+    animating = false;
   }
 
   @override
@@ -78,12 +78,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     else
       heightNotifier = widget.valueNotifier;
 
-    _animationController = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
-
-    _animationController.addStatusListener(statusListener);
+    _resetAnimationController();
 
     _dragHeight = widget.minHeight;
 
@@ -160,6 +155,8 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                   onPanStart: (details) {
                     _startHeight = _dragHeight;
                     updateCount = 0;
+
+                    if (animating) _resetAnimationController();
                   },
                   onPanEnd: (details) async {
                     ///Calculates drag speed
@@ -211,7 +208,6 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                     _snapToPosition(snap);
                   },
                   onPanUpdate: (details) {
-                    if (animating) return;
                     if (dismissed) return;
 
                     _dragHeight -= details.delta.dy;
@@ -235,7 +231,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     if (_dragHeight >= widget.minHeight) {
       if (dragDownPercentage.value != 0) dragDownPercentage.value = 0;
 
-      if (!animating && _dragHeight > widget.maxHeight) return;
+      if (_dragHeight > widget.maxHeight) return;
 
       heightNotifier.value = _dragHeight;
     }
