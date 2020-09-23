@@ -34,7 +34,7 @@ Miniplayer(
    onDismiss: () {
       //If onDismiss is set, 
       //the miniplayer can be dismissed
-      //Handle onDismissed here e.g.
+      //Handle onDismissed here
    }, 
 ),
       </pre>
@@ -85,6 +85,6 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-#### Usage with BottomNavigationBar
+### Usage with BottomNavigationBar
 
 [See example](https://pub.dev/packages/miniplayer/example)
