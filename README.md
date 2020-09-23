@@ -39,10 +39,26 @@ Miniplayer(
 ),
       </pre>
     </td>
-     <td ">
+     <td>
        <img src="./example/demo_gif/demo_dismiss.gif"/>
      </td>
   </tr>
+    <tr>
+      <td>valueNotifier</td>
+      <td>
+        <pre lang="dart">
+final ValueNotifier<double> playerExpandProgress =
+    ValueNotifier(playerMinHeight);
+    <br />
+Miniplayer(
+   valueNotifier: playerExpandProgress, 
+),
+        </pre>
+      </td>
+       <td>
+         <img src="./example/demo_gif/demo_valueNotifier.gif"/>
+       </td>
+    </tr>
 </table>
 
 ### Usage without BottomNavigationBar
