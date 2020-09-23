@@ -1,6 +1,9 @@
 [![Pub](https://img.shields.io/pub/v/miniplayer?color=2196F3)](https://pub.dev/packages/miniplayer)
 
-A **lightweight** flutter package to simplify the creation of a miniplayer by providing a builder function with the current height and percentage progress. The widget responds to tap and drag gestures and is highly customizable.
+A lightweight flutter package to simplify the creation of a miniplayer by providing a builder function with the current height and percentage progress. The widget responds to tap and drag gestures and is highly customizable.
+**What is a miniplayer?**
+Miniplayers are commonly used in media applications(e.g. Spotify, Youtube). A miniplayer can be expanded and minified and remains on the screen when minified until dismissed by the user.
+See the demo below for an example.
 
 ## Demo
 
@@ -19,7 +22,47 @@ Miniplayer(
   },
 ),
 ```
-#### Usage without BottomNavigationBar
+
+##Options
+
+<table>
+  <tr>
+    <td>onDismiss</td>
+    <td width="33%">
+      <pre lang="dart">
+Miniplayer(
+   onDismiss: () {
+      //If onDismiss is set, 
+      //the miniplayer can be dismissed
+      //Handle onDismissed here e.g.
+   }, 
+),
+      </pre>
+    </td>
+     <td width="66%">
+       <img src="./example/demo_gif/demo_dismiss.gif"/>
+     </td>
+  </tr>
+  <tr>
+      <td>onDismiss</td>
+      <td width="33%">
+        <pre lang="dart">
+  Miniplayer(
+     onDismiss: () {
+        //If onDismiss is set, 
+        //the miniplayer can be dismissed
+        //Handle onDismissed here e.g.
+     }, 
+  ),
+        </pre>
+      </td>
+       <td width="66%">
+         <img src="./example/demo_gif/demo.gif"/>
+       </td>
+    </tr>
+</table>
+
+### Usage without BottomNavigationBar
 This method is only recommended for simple apps. If you want to use dialogs or persistent widgets such as a BottomNavigationBar, use the second (slightly more advanced) method as described in the [example](https://pub.dev/packages/miniplayer/example) which uses Navigator as a base.
 
 ```dart
