@@ -2,7 +2,7 @@
 
 A lightweight flutter package to simplify the creation of a miniplayer by providing a builder function with the current height and percentage progress. The widget responds to tap and drag gestures and is highly customizable.
 **What is a miniplayer?**
-Miniplayers are commonly used in media applications(e.g. Spotify, Youtube). A miniplayer can be expanded and minified and remains on the screen when minified until dismissed by the user.
+Miniplayers are commonly used in media applications like Spotify and Youtube. A miniplayer can be expanded and minified and remains on the screen when minified until dismissed by the user.
 See the demo below for an example.
 
 ## Demo
@@ -23,12 +23,12 @@ Miniplayer(
 ),
 ```
 
-##Options
+## Options
 
 <table>
   <tr>
     <td>onDismiss</td>
-    <td width="33%">
+    <td>
       <pre lang="dart">
 Miniplayer(
    onDismiss: () {
@@ -39,27 +39,10 @@ Miniplayer(
 ),
       </pre>
     </td>
-     <td width="66%">
+     <td ">
        <img src="./example/demo_gif/demo_dismiss.gif"/>
      </td>
   </tr>
-  <tr>
-      <td>onDismiss</td>
-      <td width="33%">
-        <pre lang="dart">
-  Miniplayer(
-     onDismiss: () {
-        //If onDismiss is set, 
-        //the miniplayer can be dismissed
-        //Handle onDismissed here e.g.
-     }, 
-  ),
-        </pre>
-      </td>
-       <td width="66%">
-         <img src="./example/demo_gif/demo.gif"/>
-       </td>
-    </tr>
 </table>
 
 ### Usage without BottomNavigationBar
