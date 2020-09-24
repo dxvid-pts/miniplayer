@@ -30,7 +30,7 @@ Miniplayer(
   <tr>
     <th>Parameter</th>
     <th>Implementation</th>
-    <th>Demo</th>
+    <th>Explanation</th>
   </tr>
   <tr>
     <td>onDismiss</td>
@@ -38,8 +38,6 @@ Miniplayer(
       <pre lang="dart">
 Miniplayer(
    onDismiss: () {
-      //If onDismiss is set, 
-      //the miniplayer can be dismissed
       //Handle onDismissed here
    }, 
 ),
@@ -47,6 +45,7 @@ Miniplayer(
     </td>
      <td>
        <img src="https://raw.githubusercontent.com/peterscodee/miniplayer/master/example/demo_gif/demo_dismiss.gif"/>
+       <p>If onDismiss is set, the miniplayer can be dismissed</p>
      </td>
   </tr>
   <tr></tr>
@@ -54,13 +53,9 @@ Miniplayer(
       <td>valueNotifier</td>
       <td>
         <pre lang="dart">
-//Allows you to use a global ValueNotifier 
-//with the current progress. 
-//Can be used to hide the BottomNavigationBar.
-final ValueNotifier<double> playerExpandProgress =
+final ValueNotifier&lt;double&gt; playerExpandProgress =
     ValueNotifier(playerMinHeight);
-    
-    
+    </br>
 Miniplayer(
    valueNotifier: playerExpandProgress, 
 ),
@@ -68,6 +63,7 @@ Miniplayer(
       </td>
        <td>
          <img src="https://raw.githubusercontent.com/peterscodee/miniplayer/master/example/demo_gif/demo_valueNotifier.gif"/>
+         <p>Allows you to use a global ValueNotifier with the current progress. This can be used to hide the BottomNavigationBar.</p>
        </td>
     </tr>
 </table>
