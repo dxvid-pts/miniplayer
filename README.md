@@ -12,14 +12,19 @@ See the demo below for an example.
 ## Usage
 
 ```dart
-Miniplayer(
-  minHeight: 70,
-  maxHeight: 370,
-  builder: (height, percentage) {
-    return Center(
-      child: Text('$height, $percentage'),
-    );
-  },
+Stack(
+  children: <Widget>[
+    YourApp(),
+    Miniplayer(
+      minHeight: 70,
+      maxHeight: 370,
+      builder: (height, percentage) {
+        return Center(
+          child: Text('$height, $percentage'),
+        );
+      },
+    ),
+  ],
 ),
 ```
 
@@ -68,9 +73,12 @@ Miniplayer(
     </tr>
 </table>
 
-### Usage without BottomNavigationBar
-This method is only recommended for simple apps. If you want to use dialogs or persistent widgets such as a BottomNavigationBar, use the second (slightly more advanced) method as described in the [example](https://pub.dev/packages/miniplayer/example) which uses Navigator as a base.
+## Persistence
+Implementing the miniplayer as described under [usage](https://pub.dev/packages/miniplayer#usage) - for instance by wrapping it in a stack alongside the `Scaffold` body - would work out of the box but has some disadvantages. If you push a new screen via `Navigator.push` the miniplayer would disappear. What we want is a persistent miniplayer which stays on every screen.
 
+You have the option of two methods when it comes to archiving the miniplayer's persistent state, which depends on the use case. The first method is only recommended for simple apps and use cases. If you want to use dialogs or persistent widgets such as a BottomNavigationBar, use the second (slightly more advanced) method 
+
+## First method (Simple)
 ```dart
 import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
@@ -108,6 +116,6 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-### Usage with BottomNavigationBar
+## Second method (Advanced)
 
 [See example](https://pub.dev/packages/miniplayer/example)
