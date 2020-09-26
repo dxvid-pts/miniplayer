@@ -3,6 +3,7 @@ library miniplayer;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:miniplayer/src/utils.dart';
 
 typedef Widget MiniplayerBuilder(double height, double percentage);
 
@@ -108,7 +109,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
               GestureDetector(
                 onTap: () => _animateToHeight(widget.minHeight),
                 child: Opacity(
-                  opacity: _borderDouble(
+                  opacity: borderDouble(
                       minRange: 0, maxRange: 1, value: _percentage),
                   child: Container(color: widget.backgroundColor),
                 ),
@@ -124,7 +125,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                       if (value == 0) return child;
 
                       return Opacity(
-                        opacity: _borderDouble(
+                        opacity: borderDouble(
                             minRange: 0, maxRange: 1, value: 1 - value * 0.8),
                         child: Transform.translate(
                           offset: Offset(0.0, widget.minHeight * value * 0.5),
@@ -178,7 +179,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                     ///Determine to which SnapPosition the widget should snap
                     SnapPosition snap = SnapPosition.MIN;
 
-                    final _percentageMax = _percentageFromValueInRange(
+                    final _percentageMax = percentageFromValueInRange(
                         min: widget.minHeight,
                         max: widget.maxHeight,
                         value: _dragHeight);
@@ -197,7 +198,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
                       ///DismissedPercentage > 0.2 -> dismiss
                       if (widget.onDismiss != null &&
-                          _percentageFromValueInRange(
+                          percentageFromValueInRange(
                                   min: widget.minHeight,
                                   max: 0,
                                   value: _dragHeight) >
@@ -238,10 +239,10 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
     ///Drag below minHeight
     else if (widget.onDismiss != null) {
-      var percentageDown = _borderDouble(
+      var percentageDown = borderDouble(
           minRange: 0,
           maxRange: 1,
-          value: _percentageFromValueInRange(
+          value: percentageFromValueInRange(
               min: widget.minHeight, max: 0, value: _dragHeight));
 
       if (dragDownPercentage.value != percentageDown)
@@ -292,15 +293,4 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     animating = true;
     _animationController.forward(from: 0);
   }
-}
-
-///Calculates the percentage of a value within a given range of values
-double _percentageFromValueInRange({final double min, max, value}) {
-  return (value - min) / (max - min);
-}
-
-double _borderDouble({double minRange, double maxRange, double value}) {
-  if (value > maxRange) return maxRange;
-  if (value < minRange) return minRange;
-  return value;
 }
