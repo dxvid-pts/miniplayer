@@ -5,17 +5,37 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:miniplayer/src/utils.dart';
 
+///Type definition for the builder function
 typedef Widget MiniplayerBuilder(double height, double percentage);
 
-enum SnapPosition { MAX, MIN, DISMISS }
-
+///Miniplayers are commonly used in media applications like Spotify and Youtube.
+///A miniplayer can be expanded and minified and
+///remains on the screen when minified until dismissed by the user.
 class Miniplayer extends StatefulWidget {
-  final double minHeight, maxHeight, elevation;
+  ///Required option to set the minimum and maximum height
+  final double minHeight, maxHeight;
+
+  ///Option to enable and set elevation for the miniplayer
+  final double elevation;
+
+  ///Central API-Element
+  ///Provides a builder with useful information
   final MiniplayerBuilder builder;
+
+  ///Option to set the animation curve
   final Curve curve;
+
+  ///Sets the background-color of the miniplayer
   final Color backgroundColor;
+
+  ///Option to set the animation duration
   final Duration duration;
+
+  ///Allows you to use a global ValueNotifier with the current progress.
+  ///This can be used to hide the BottomNavigationBar.
   final ValueNotifier<double> valueNotifier;
+
+  ///If onDismiss is set, the miniplayer can be dismissed
   final Function onDismiss;
 
   const Miniplayer({
