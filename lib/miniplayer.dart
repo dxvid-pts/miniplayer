@@ -38,6 +38,8 @@ class Miniplayer extends StatefulWidget {
   ///If onDismiss is set, the miniplayer can be dismissed
   final Function onDismiss;
 
+  final MiniplayerController controller;
+
   const Miniplayer({
     Key key,
     @required this.minHeight,
@@ -49,6 +51,7 @@ class Miniplayer extends StatefulWidget {
     this.valueNotifier,
     this.duration = const Duration(milliseconds: 300),
     this.onDismiss,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -59,7 +62,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   ValueNotifier<double> heightNotifier;
   ValueNotifier<double> dragDownPercentage = ValueNotifier(0);
 
-  SnapPosition snap;
+  PanelState snap;
 
   ///Current y position of drag gesture
   double _dragHeight;
@@ -82,11 +85,11 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     if (status == AnimationStatus.completed) _resetAnimationController();
   }
 
-  void _resetAnimationController() {
+  void _resetAnimationController({Duration duration}) {
     if (_animationController != null) _animationController.dispose();
     _animationController = AnimationController(
       vsync: this,
-      duration: widget.duration,
+      duration: duration == null ? widget.duration : duration,
     );
     _animationController.addStatusListener(_statusListener);
     animating = false;
@@ -102,6 +105,37 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     _resetAnimationController();
 
     _dragHeight = widget.minHeight;
+
+    if (widget.controller != null) {
+      widget.controller.addListener(() {
+        switch (widget.controller.value.height) {
+          case -1:
+            _animateToHeight(
+              widget.minHeight,
+              duration: widget.controller.value.duration,
+            );
+            break;
+          case -2:
+            _animateToHeight(
+              widget.maxHeight,
+              duration: widget.controller.value.duration,
+            );
+            break;
+          case -3:
+            _animateToHeight(
+              -1,
+              duration: widget.controller.value.duration,
+            );
+            break;
+          default:
+            _animateToHeight(
+              widget.controller.value.height.toDouble(),
+              duration: widget.controller.value.duration,
+            );
+            break;
+        }
+      });
+    }
 
     super.initState();
   }
@@ -171,8 +205,8 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                     ),
                   ),
                   onTap: () => _snapToPosition(_dragHeight != widget.maxHeight
-                      ? SnapPosition.MAX
-                      : SnapPosition.MIN),
+                      ? PanelState.MAX
+                      : PanelState.MIN),
                   onPanStart: (details) {
                     _startHeight = _dragHeight;
                     updateCount = 0;
@@ -197,7 +231,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                     else if (speed <= 50) snapPercentage = 0.01;
 
                     ///Determine to which SnapPosition the widget should snap
-                    SnapPosition snap = SnapPosition.MIN;
+                    PanelState snap = PanelState.MIN;
 
                     final _percentageMax = percentageFromValueInRange(
                         min: widget.minHeight,
@@ -207,13 +241,13 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                     ///Started from expanded state
                     if (_startHeight > widget.minHeight) {
                       if (_percentageMax > 1 - snapPercentage)
-                        snap = SnapPosition.MAX;
+                        snap = PanelState.MAX;
                     }
 
                     ///Started from minified state
                     else {
                       if (_percentageMax > snapPercentage)
-                        snap = SnapPosition.MAX;
+                        snap = PanelState.MAX;
                       else
 
                       ///DismissedPercentage > 0.2 -> dismiss
@@ -222,7 +256,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                                   min: widget.minHeight,
                                   max: 0,
                                   value: _dragHeight) >
-                              snapPercentage) snap = SnapPosition.DISMISS;
+                              snapPercentage) snap = PanelState.DISMISS;
                     }
 
                     ///Snap to position
@@ -278,23 +312,25 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   }
 
   ///Animates the panel height according to a SnapPoint
-  void _snapToPosition(SnapPosition snapPosition) {
+  void _snapToPosition(PanelState snapPosition) {
     switch (snapPosition) {
-      case SnapPosition.MAX:
+      case PanelState.MAX:
         _animateToHeight(widget.maxHeight);
         return;
-      case SnapPosition.MIN:
+      case PanelState.MIN:
         _animateToHeight(widget.minHeight);
         return;
-      case SnapPosition.DISMISS:
+      case PanelState.DISMISS:
         _animateToHeight(0);
         return;
     }
   }
 
   ///Animates the panel height to a specific value
-  void _animateToHeight(final double h) {
+  void _animateToHeight(final double h, {Duration duration}) {
     final startHeight = _dragHeight;
+
+    if (duration != null) _resetAnimationController(duration: duration);
 
     Animation<double> _sizeAnimation = Tween(
       begin: startHeight,
@@ -313,4 +349,38 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     animating = true;
     _animationController.forward(from: 0);
   }
+}
+
+///-1 Min, -2 Max, -3 Dismiss
+enum PanelState { MAX, MIN, DISMISS }
+
+class ControllerData {
+  final int height;
+  final Duration duration;
+
+  const ControllerData(this.height, this.duration);
+}
+
+class MiniplayerController extends ValueNotifier<ControllerData> {
+  MiniplayerController() : super(null);
+
+  void animateToHeight(
+      {double height, PanelState state, Duration duration}) {
+    if (height == null && state == null) return;
+    if (height != null && state != null) return;
+
+    ControllerData valBefore = value;
+
+    if (state != null)
+      value = ControllerData(state.heightCode, duration);
+    else {
+      if (height < 0) return;
+
+      value = ControllerData(height.round(), duration);
+    }
+
+    if (valBefore == value) notifyListeners();
+  }
+
+  void dismiss() {}
 }

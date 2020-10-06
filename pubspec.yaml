@@ -5,7 +5,7 @@ homepage: https://www.peterscode.dev
 repository: https://github.com/peterscodee/miniplayer
 
 environment:
-  sdk: ">=2.3.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
   flutter: ">=1.0.0 <2.0.0"
 
 dependencies:
