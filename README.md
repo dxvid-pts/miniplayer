@@ -119,3 +119,8 @@ class MyApp extends StatelessWidget {
 ## Second method (Advanced)
 
 [See example](https://pub.dev/packages/miniplayer/example)
+
+## Roadmap
+- [ ] Add a controller to be able to set positions programmatic
+- [ ] Add an option to handle horizontal gestures as well (like Spotify does) 
+- [ ] Rewrite the API for onDismiss (breaking change)
