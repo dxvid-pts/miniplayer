@@ -123,7 +123,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
             break;
           case -3:
             _animateToHeight(
-              -1,
+              0,
               duration: widget.controller.value.duration,
             );
             break;
@@ -364,10 +364,12 @@ class ControllerData {
 class MiniplayerController extends ValueNotifier<ControllerData> {
   MiniplayerController() : super(null);
 
-  void animateToHeight(
-      {double height, PanelState state, Duration duration}) {
-    if (height == null && state == null) return;
-    if (height != null && state != null) return;
+  void animateToHeight({double height, PanelState state, Duration duration}) {
+    if (height == null && state == null)
+      throw ("Miniplayer: One of the two parameters, height or status, is required.");
+
+    if (height != null && state != null)
+      throw ("Miniplayer: Only one of the two parameters, height or status, can be specified.");
 
     ControllerData valBefore = value;
 
