@@ -104,7 +104,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
     _resetAnimationController();
 
-    _dragHeight = widget.minHeight;
+    _dragHeight = heightNotifier.value;
 
     if (widget.controller != null) {
       widget.controller.addListener(() {
