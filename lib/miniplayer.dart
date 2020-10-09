@@ -106,36 +106,8 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
     _dragHeight = heightNotifier.value;
 
-    if (widget.controller != null) {
-      widget.controller.addListener(() {
-        switch (widget.controller.value.height) {
-          case -1:
-            _animateToHeight(
-              widget.minHeight,
-              duration: widget.controller.value.duration,
-            );
-            break;
-          case -2:
-            _animateToHeight(
-              widget.maxHeight,
-              duration: widget.controller.value.duration,
-            );
-            break;
-          case -3:
-            _animateToHeight(
-              0,
-              duration: widget.controller.value.duration,
-            );
-            break;
-          default:
-            _animateToHeight(
-              widget.controller.value.height.toDouble(),
-              duration: widget.controller.value.duration,
-            );
-            break;
-        }
-      });
-    }
+    if (widget.controller != null)
+      widget.controller.addListener(controllerListener);
 
     super.initState();
   }
@@ -144,6 +116,10 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   void dispose() {
     _heightController.close();
     _animationController.dispose();
+
+    if (widget.controller != null)
+      widget.controller.removeListener(controllerListener);
+
     super.dispose();
   }
 
@@ -348,6 +324,35 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
     animating = true;
     _animationController.forward(from: 0);
+  }
+
+  void controllerListener() {
+    switch (widget.controller.value.height) {
+      case -1:
+        _animateToHeight(
+          widget.minHeight,
+          duration: widget.controller.value.duration,
+        );
+        break;
+      case -2:
+        _animateToHeight(
+          widget.maxHeight,
+          duration: widget.controller.value.duration,
+        );
+        break;
+      case -3:
+        _animateToHeight(
+          0,
+          duration: widget.controller.value.duration,
+        );
+        break;
+      default:
+        _animateToHeight(
+          widget.controller.value.height.toDouble(),
+          duration: widget.controller.value.duration,
+        );
+        break;
+    }
   }
 }
 
