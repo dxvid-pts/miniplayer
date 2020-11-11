@@ -8,9 +8,7 @@ import 'package:miniplayer/src/utils.dart';
 ///Type definition for the builder function
 typedef Widget MiniplayerBuilder(double height, double percentage);
 
-///Miniplayers are commonly used in media applications like Spotify and Youtube.
-///A miniplayer can be expanded and minified and
-///remains on the screen when minified until dismissed by the user.
+///Miniplayer class
 class Miniplayer extends StatefulWidget {
   ///Required option to set the minimum and maximum height
   final double minHeight, maxHeight;
@@ -38,6 +36,7 @@ class Miniplayer extends StatefulWidget {
   ///If onDismiss is set, the miniplayer can be dismissed
   final Function onDismiss;
 
+  //Allows you to manually control the miniplayer in code
   final MiniplayerController controller;
 
   const Miniplayer({
@@ -326,6 +325,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     _animationController.forward(from: 0);
   }
 
+  //Listener function for the controller
   void controllerListener() {
     switch (widget.controller.value.height) {
       case -1:
@@ -359,6 +359,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 ///-1 Min, -2 Max, -3 Dismiss
 enum PanelState { MAX, MIN, DISMISS }
 
+//ControllerData class. Used for the controller
 class ControllerData {
   final int height;
   final Duration duration;
@@ -366,9 +367,11 @@ class ControllerData {
   const ControllerData(this.height, this.duration);
 }
 
+//MiniplayerController class
 class MiniplayerController extends ValueNotifier<ControllerData> {
   MiniplayerController() : super(null);
 
+  //Animates to a given height or state(expanded, dismissed, ...)
   void animateToHeight({double height, PanelState state, Duration duration}) {
     if (height == null && state == null)
       throw ("Miniplayer: One of the two parameters, height or status, is required.");
@@ -388,6 +391,4 @@ class MiniplayerController extends ValueNotifier<ControllerData> {
 
     if (valBefore == value) notifyListeners();
   }
-
-  void dismiss() {}
 }
