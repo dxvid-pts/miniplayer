@@ -1,7 +1,12 @@
+## 0.6.1
+
+* Mark ~~onDismiss~~ as deprecated: Migrate ~~onDismiss~~ to onDismissed as ~~onDismiss~~ will be used differently in a future version
+* API cleanup
+
 ## 0.6.0
 
 * Added AnimationController
-* Bug fixes.
+* Bug fixes
 
 ## 0.5.0+2
 
@@ -10,7 +15,7 @@
 
 ## 0.5.0+1
 
-* Bug fixes.
+* Bug fixes
 * Dismiss behaviour is more natural now
 
 ## 0.5.0
@@ -50,12 +55,12 @@
 
 ## 0.1.2
 
-* Bug fixes.
+* Bug fixes
 
 ## 0.1.1
 
-* Bug fixes.
+* Bug fixes
 
 ## 0.1.0
 
-* Initial Open Source release.
+* Initial Open Source release
