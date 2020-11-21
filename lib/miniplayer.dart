@@ -8,6 +8,9 @@ import 'package:miniplayer/src/utils.dart';
 ///Type definition for the builder function
 typedef Widget MiniplayerBuilder(double height, double percentage);
 
+///Type definition for onDismiss. Will be used in a future version.
+typedef void DismissCallback(double percentage);
+
 ///Miniplayer class
 class Miniplayer extends StatefulWidget {
   ///Required option to set the minimum and maximum height
@@ -33,8 +36,13 @@ class Miniplayer extends StatefulWidget {
   ///This can be used to hide the BottomNavigationBar.
   final ValueNotifier<double> valueNotifier;
 
-  ///If onDismiss is set, the miniplayer can be dismissed
+  ///Deprecated
+  @Deprecated(
+      "Migrate onDismiss to onDismissed as onDismiss will be used differently in a future version.")
   final Function onDismiss;
+
+  ///If onDismissed is set, the miniplayer can be dismissed
+  final Function onDismissed;
 
   //Allows you to manually control the miniplayer in code
   final MiniplayerController controller;
@@ -50,6 +58,7 @@ class Miniplayer extends StatefulWidget {
     this.valueNotifier,
     this.duration = const Duration(milliseconds: 300),
     this.onDismiss,
+    this.onDismissed,
     this.controller,
   }) : super(key: key);
 
@@ -61,7 +70,8 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   ValueNotifier<double> heightNotifier;
   ValueNotifier<double> dragDownPercentage = ValueNotifier(0);
 
-  PanelState snap;
+  ///Temporary variable as long as onDismiss is deprecated. Will be removed in a future version.
+  Function onDismissed;
 
   ///Current y position of drag gesture
   double _dragHeight;
@@ -107,6 +117,12 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
     if (widget.controller != null)
       widget.controller.addListener(controllerListener);
+
+    if (widget.onDismissed != null)
+      onDismissed = widget.onDismissed;
+    else
+      // ignore: deprecated_member_use_from_same_package
+      onDismissed = widget.onDismiss;
 
     super.initState();
   }
@@ -226,7 +242,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                       else
 
                       ///DismissedPercentage > 0.2 -> dismiss
-                      if (widget.onDismiss != null &&
+                      if (onDismissed != null &&
                           percentageFromValueInRange(
                                   min: widget.minHeight,
                                   max: 0,
@@ -267,7 +283,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     }
 
     ///Drag below minHeight
-    else if (widget.onDismiss != null) {
+    else if (onDismissed != null) {
       var percentageDown = borderDouble(
           minRange: 0,
           maxRange: 1,
@@ -278,7 +294,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
         dragDownPercentage.value = percentageDown;
 
       if (percentageDown >= 1 && animation && !dismissed) {
-        if (widget.onDismiss != null) widget.onDismiss();
+        if (onDismissed != null) onDismissed();
         setState(() {
           dismissed = true;
         });
