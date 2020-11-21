@@ -16,11 +16,16 @@ extension SelectedColorExtension on PanelState {
 }
 
 ///Calculates the percentage of a value within a given range of values
-double percentageFromValueInRange({final double min, max, value}) {
+double percentageFromValueInRange(
+    {required double min, required max, required value}) {
   return (value - min) / (max - min);
 }
 
-double borderDouble({double minRange, double maxRange, double value}) {
+double borderDouble({
+  required double minRange,
+  required double maxRange,
+  required double value,
+}) {
   if (value > maxRange) return maxRange;
   if (value < minRange) return minRange;
   return value;
