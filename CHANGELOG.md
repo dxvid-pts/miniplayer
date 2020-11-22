@@ -1,3 +1,7 @@
+##1.0.0-nullsafety.0
+
+*Migration to null safety
+
 ## 0.6.1
 
 * Mark ~~onDismiss~~ as deprecated: Migrate ~~onDismiss~~ to onDismissed as ~~onDismiss~~ will be used differently in a future version
