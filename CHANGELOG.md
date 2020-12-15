@@ -1,6 +1,6 @@
 ##1.0.0-nullsafety.0
 
-*Migration to null safety
+* Migration to null safety
 
 ## 0.6.1
 
