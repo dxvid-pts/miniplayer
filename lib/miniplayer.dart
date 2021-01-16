@@ -3,7 +3,10 @@ library miniplayer;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:miniplayer/src/miniplayer_will_pop_scope.dart';
 import 'package:miniplayer/src/utils.dart';
+
+export 'package:miniplayer/src/miniplayer_will_pop_scope.dart';
 
 ///Type definition for the builder function
 typedef Widget MiniplayerBuilder(double height, double percentage);
@@ -142,7 +145,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     if (dismissed) return Container();
 
-    return WillPopScope(
+    return MiniplayerWillPopScope(
       onWillPop: () async {
         if (heightNotifier.value > widget.minHeight) {
           _snapToPosition(PanelState.MIN);
