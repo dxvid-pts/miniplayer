@@ -1,6 +1,13 @@
+## 1.0.0
+
+* Null safety
+* [Android] Back button now closes the player when expanded
+* Introduced `MiniplayerWillPopScope` as a drop-in replacement for `WillPopScope` to work with nested architectures
+* Updated the example to match the demo
+
 ## 0.6.1
 
-* Mark ~~onDismiss~~ as deprecated: Migrate ~~onDismiss~~ to onDismissed as ~~onDismiss~~ will be used differently in a future version
+* Mark onDismiss as deprecated: Replace with onDismiss**ed**
 * API cleanup
 
 ## 0.6.0
@@ -27,7 +34,8 @@
 
 ## 0.4.1+2
 
-* Updated the description based on a comment from [@jwknows](https://www.reddit.com/r/FlutterDev/comments/ihipfr/miniplayer_functionality_in_flutter/#CommentTopMeta--Created--t1_g30dh9e:~:text=I%20might%20be%20wrong%20but%20I'm,be%20%22on%20top%22%20of%20dialogs%20etc...)
+* Updated the description based on a comment
+  from [@jwknows](https://www.reddit.com/r/FlutterDev/comments/ihipfr/miniplayer_functionality_in_flutter/#CommentTopMeta--Created--t1_g30dh9e:~:text=I%20might%20be%20wrong%20but%20I'm,be%20%22on%20top%22%20of%20dialogs%20etc...)
 
 ## 0.4.1+1
 
