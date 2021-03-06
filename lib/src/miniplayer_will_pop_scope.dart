@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 
 class MiniplayerWillPopScope extends StatefulWidget {
   const MiniplayerWillPopScope({
-    Key key,
-    @required this.child,
-    @required this.onWillPop,
-  })  : assert(child != null),
-        super(key: key);
+    Key? key,
+    required this.child,
+    required this.onWillPop,
+  }) : super(key: key);
 
   final Widget child;
   final WillPopCallback onWillPop;
@@ -14,15 +13,15 @@ class MiniplayerWillPopScope extends StatefulWidget {
   @override
   _MiniplayerWillPopScopeState createState() => _MiniplayerWillPopScopeState();
 
-  static _MiniplayerWillPopScopeState of(BuildContext context) {
+  static _MiniplayerWillPopScopeState? of(BuildContext context) {
     return context.findAncestorStateOfType<_MiniplayerWillPopScopeState>();
   }
 }
 
 class _MiniplayerWillPopScopeState extends State<MiniplayerWillPopScope> {
-  ModalRoute<dynamic> _route;
+  ModalRoute<dynamic>? _route;
 
-  _MiniplayerWillPopScopeState _descendant;
+  _MiniplayerWillPopScopeState? _descendant;
 
   set descendant(state) {
     _descendant = state;
@@ -30,11 +29,11 @@ class _MiniplayerWillPopScopeState extends State<MiniplayerWillPopScope> {
   }
 
   Future<bool> onWillPop() async {
-    bool willPop;
+    bool? willPop;
     if (_descendant != null) {
-      willPop = await _descendant.onWillPop();
+      willPop = await _descendant!.onWillPop();
     }
-    if (willPop == null || willPop) {
+    if (willPop == null) {
       willPop = await widget.onWillPop();
     }
     return willPop;

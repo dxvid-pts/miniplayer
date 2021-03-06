@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class AudioObject {
   final String title, subtitle, img;
 
@@ -7,10 +5,10 @@ class AudioObject {
 }
 
 double valueFromPercentageInRange(
-    {@required final double min, max, percentage}) {
+    {required final double min, max, percentage}) {
   return percentage * (max - min) + min;
 }
 
-double percentageFromValueInRange({@required final double min, max, value}) {
+double percentageFromValueInRange({required final double min, max, value}) {
   return (value - min) / (max - min);
 }

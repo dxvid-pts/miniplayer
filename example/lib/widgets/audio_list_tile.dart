@@ -9,7 +9,7 @@ class AudioListTile extends StatelessWidget {
   final Function onTap;
 
   const AudioListTile(
-      {Key key, @required this.audioObject, @required this.onTap})
+      {Key? key, required this.audioObject, required this.onTap})
       : super(key: key);
 
   @override
@@ -32,7 +32,7 @@ class AudioListTile extends StatelessWidget {
       ),
       trailing: IconButton(
         icon: Icon(Icons.play_arrow_outlined),
-        onPressed: onTap,
+        onPressed: () => onTap(),
       ),
     );
   }

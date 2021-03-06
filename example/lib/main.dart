@@ -3,7 +3,7 @@ import 'screens/audio_screen.dart';
 import 'widgets/player.dart';
 import 'utils.dart';
 
-ValueNotifier<AudioObject> currentlyPlaying = ValueNotifier(null);
+ValueNotifier<AudioObject?> currentlyPlaying = ValueNotifier(null);
 
 const double playerMinHeight = 70;
 const double playerMaxHeight = 370;
@@ -48,30 +48,20 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           ValueListenableBuilder(
             valueListenable: currentlyPlaying,
-            builder:
-                (BuildContext context, AudioObject audioObject, Widget child) =>
-                    audioObject != null
-                        ? DetailedPlayer(audioObject: audioObject)
-                        : Container(),
+            builder: (BuildContext context, AudioObject? audioObject,
+                    Widget? child) =>
+                audioObject != null
+                    ? DetailedPlayer(audioObject: audioObject)
+                    : Container(),
           ),
         ],
       ),
       bottomNavigationBar: ValueListenableBuilder(
         valueListenable: playerExpandProgress,
-        child: BottomNavigationBar(
-          currentIndex: 0,
-          selectedItemColor: Colors.blue,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Feed'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.library_books), label: 'Library'),
-          ],
-        ),
-        builder: (BuildContext context, double height, Widget child) {
+        builder: (BuildContext context, double height, Widget? child) {
           final value = percentageFromValueInRange(
               min: playerMinHeight, max: playerMaxHeight, value: height);
 
-          if (value == null) return child;
           var opacity = 1 - value;
           if (opacity < 0) opacity = 0;
           if (opacity > 1) opacity = 1;
@@ -85,6 +75,15 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           );
         },
+        child: BottomNavigationBar(
+          currentIndex: 0,
+          selectedItemColor: Colors.blue,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Feed'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.library_books), label: 'Library'),
+          ],
+        ),
       ),
     );
   }

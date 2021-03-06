@@ -12,7 +12,7 @@ final MiniplayerController controller = MiniplayerController();
 class DetailedPlayer extends StatelessWidget {
   final AudioObject audioObject;
 
-  const DetailedPlayer({Key key, @required this.audioObject}) : super(key: key);
+  const DetailedPlayer({Key? key, required this.audioObject}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -150,13 +150,13 @@ class DetailedPlayer extends StatelessWidget {
                             Text(audioObject.title,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText2
+                                    .bodyText2!
                                     .copyWith(fontSize: 16)),
                             Text(
                               audioObject.subtitle,
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2
+                                  .bodyText2!
                                   .copyWith(
                                       color: Colors.black.withOpacity(0.55)),
                             ),

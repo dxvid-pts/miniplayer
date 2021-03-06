@@ -27,7 +27,7 @@ const Set<AudioObject> audioExamples = {
 class AudioUi extends StatelessWidget {
   final OnTap onTap;
 
-  const AudioUi({Key key, @required this.onTap}) : super(key: key);
+  const AudioUi({Key? key, required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

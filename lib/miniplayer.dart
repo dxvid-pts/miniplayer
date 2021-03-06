@@ -37,24 +37,24 @@ class Miniplayer extends StatefulWidget {
 
   ///Allows you to use a global ValueNotifier with the current progress.
   ///This can be used to hide the BottomNavigationBar.
-  final ValueNotifier<double> valueNotifier;
+  final ValueNotifier<double>? valueNotifier;
 
   ///Deprecated
   @Deprecated(
       "Migrate onDismiss to onDismissed as onDismiss will be used differently in a future version.")
-  final Function onDismiss;
+  final Function? onDismiss;
 
   ///If onDismissed is set, the miniplayer can be dismissed
-  final Function onDismissed;
+  final Function? onDismissed;
 
   //Allows you to manually control the miniplayer in code
-  final MiniplayerController controller;
+  final MiniplayerController? controller;
 
   const Miniplayer({
-    Key key,
-    @required this.minHeight,
-    @required this.maxHeight,
-    @required this.builder,
+    Key? key,
+    required this.minHeight,
+    required this.maxHeight,
+    required this.builder,
     this.curve = Curves.easeOut,
     this.elevation = 0,
     this.backgroundColor = const Color(0x70000000),
@@ -70,17 +70,17 @@ class Miniplayer extends StatefulWidget {
 }
 
 class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
-  ValueNotifier<double> heightNotifier;
+  late ValueNotifier<double> heightNotifier;
   ValueNotifier<double> dragDownPercentage = ValueNotifier(0);
 
   ///Temporary variable as long as onDismiss is deprecated. Will be removed in a future version.
-  Function onDismissed;
+  Function? onDismissed;
 
   ///Current y position of drag gesture
-  double _dragHeight;
+  late double _dragHeight;
 
   ///Used to determine SnapPosition
-  double _startHeight;
+  late double _startHeight;
 
   bool dismissed = false;
 
@@ -91,19 +91,19 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
   StreamController<double> _heightController =
       StreamController<double>.broadcast();
-  AnimationController _animationController;
+  AnimationController? _animationController;
 
   void _statusListener(AnimationStatus status) {
     if (status == AnimationStatus.completed) _resetAnimationController();
   }
 
-  void _resetAnimationController({Duration duration}) {
-    if (_animationController != null) _animationController.dispose();
+  void _resetAnimationController({Duration? duration}) {
+    if (_animationController != null) _animationController!.dispose();
     _animationController = AnimationController(
       vsync: this,
-      duration: duration == null ? widget.duration : duration,
+      duration: duration ?? widget.duration,
     );
-    _animationController.addStatusListener(_statusListener);
+    _animationController!.addStatusListener(_statusListener);
     animating = false;
   }
 
@@ -112,14 +112,14 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     if (widget.valueNotifier == null)
       heightNotifier = ValueNotifier(widget.minHeight);
     else
-      heightNotifier = widget.valueNotifier;
+      heightNotifier = widget.valueNotifier!;
 
     _resetAnimationController();
 
     _dragHeight = heightNotifier.value;
 
     if (widget.controller != null)
-      widget.controller.addListener(controllerListener);
+      widget.controller!.addListener(controllerListener);
 
     if (widget.onDismissed != null)
       onDismissed = widget.onDismissed;
@@ -133,10 +133,10 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   @override
   void dispose() {
     _heightController.close();
-    _animationController.dispose();
+    if (_animationController != null) _animationController!.dispose();
 
     if (widget.controller != null)
-      widget.controller.removeListener(controllerListener);
+      widget.controller!.removeListener(controllerListener);
 
     super.dispose();
   }
@@ -154,8 +154,9 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
         return true;
       },
       child: ValueListenableBuilder(
-        builder: (BuildContext context, double value, Widget child) {
-          var _percentage = ((value - widget.minHeight)) /
+        valueListenable: heightNotifier,
+        builder: (BuildContext context, double height, Widget? _) {
+          var _percentage = ((height - widget.minHeight)) /
               (widget.maxHeight - widget.minHeight);
 
           return Stack(
@@ -173,12 +174,13 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(
-                  height: value,
+                  height: height,
                   child: GestureDetector(
                     child: ValueListenableBuilder(
                       valueListenable: dragDownPercentage,
-                      builder: (context, value, child) {
-                        if (value == 0) return child;
+                      builder:
+                          (BuildContext context, double value, Widget? child) {
+                        if (value == 0) return child!;
 
                         return Opacity(
                           opacity: borderDouble(
@@ -193,7 +195,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                         color: Theme.of(context).canvasColor,
                         child: Container(
                           constraints: BoxConstraints.expand(),
-                          child: widget.builder(value, _percentage),
+                          child: widget.builder(height, _percentage),
                           decoration: BoxDecoration(
                             boxShadow: <BoxShadow>[
                               BoxShadow(
@@ -278,7 +280,6 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
             ],
           );
         },
-        valueListenable: heightNotifier,
       ),
     );
   }
@@ -306,7 +307,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
         dragDownPercentage.value = percentageDown;
 
       if (percentageDown >= 1 && animation && !dismissed) {
-        if (onDismissed != null) onDismissed();
+        if (onDismissed != null) onDismissed!();
         setState(() {
           dismissed = true;
         });
@@ -330,7 +331,8 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   }
 
   ///Animates the panel height to a specific value
-  void _animateToHeight(final double h, {Duration duration}) {
+  void _animateToHeight(final double h, {Duration? duration}) {
+    if (_animationController == null) return;
     final startHeight = _dragHeight;
 
     if (duration != null) _resetAnimationController(duration: duration);
@@ -339,7 +341,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
       begin: startHeight,
       end: h,
     ).animate(
-        CurvedAnimation(parent: _animationController, curve: widget.curve));
+        CurvedAnimation(parent: _animationController!, curve: widget.curve));
 
     _sizeAnimation.addListener(() {
       if (_sizeAnimation.value == startHeight) return;
@@ -350,34 +352,37 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     });
 
     animating = true;
-    _animationController.forward(from: 0);
+    _animationController!.forward(from: 0);
   }
 
   //Listener function for the controller
   void controllerListener() {
-    switch (widget.controller.value.height) {
+    if (widget.controller == null) return;
+    if (widget.controller!.value == null) return;
+
+    switch (widget.controller!.value!.height) {
       case -1:
         _animateToHeight(
           widget.minHeight,
-          duration: widget.controller.value.duration,
+          duration: widget.controller!.value!.duration,
         );
         break;
       case -2:
         _animateToHeight(
           widget.maxHeight,
-          duration: widget.controller.value.duration,
+          duration: widget.controller!.value!.duration,
         );
         break;
       case -3:
         _animateToHeight(
           0,
-          duration: widget.controller.value.duration,
+          duration: widget.controller!.value!.duration,
         );
         break;
       default:
         _animateToHeight(
-          widget.controller.value.height.toDouble(),
-          duration: widget.controller.value.duration,
+          widget.controller!.value!.height.toDouble(),
+          duration: widget.controller!.value!.duration,
         );
         break;
     }
@@ -390,29 +395,30 @@ enum PanelState { MAX, MIN, DISMISS }
 //ControllerData class. Used for the controller
 class ControllerData {
   final int height;
-  final Duration duration;
+  final Duration? duration;
 
   const ControllerData(this.height, this.duration);
 }
 
 //MiniplayerController class
-class MiniplayerController extends ValueNotifier<ControllerData> {
+class MiniplayerController extends ValueNotifier<ControllerData?> {
   MiniplayerController() : super(null);
 
   //Animates to a given height or state(expanded, dismissed, ...)
-  void animateToHeight({double height, PanelState state, Duration duration}) {
+  void animateToHeight(
+      {double? height, PanelState? state, Duration? duration}) {
     if (height == null && state == null)
       throw ("Miniplayer: One of the two parameters, height or status, is required.");
 
     if (height != null && state != null)
       throw ("Miniplayer: Only one of the two parameters, height or status, can be specified.");
 
-    ControllerData valBefore = value;
+    ControllerData? valBefore = value;
 
     if (state != null)
       value = ControllerData(state.heightCode, duration);
     else {
-      if (height < 0) return;
+      if (height! < 0) return;
 
       value = ControllerData(height.round(), duration);
     }
