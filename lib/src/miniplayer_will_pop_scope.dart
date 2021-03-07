@@ -33,7 +33,7 @@ class _MiniplayerWillPopScopeState extends State<MiniplayerWillPopScope> {
     if (_descendant != null) {
       willPop = await _descendant!.onWillPop();
     }
-    if (willPop == null) {
+    if (willPop == null || willPop) {
       willPop = await widget.onWillPop();
     }
     return willPop;

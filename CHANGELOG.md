@@ -1,3 +1,7 @@
+## 1.0.0+2
+
+* Fixed a bug introduced with the null safety release 
+
 ## 1.0.0
 
 * Null safety
