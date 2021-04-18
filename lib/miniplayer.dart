@@ -192,7 +192,6 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                         );
                       },
                       child: Material(
-                        color: Theme.of(context).canvasColor,
                         child: Container(
                           constraints: BoxConstraints.expand(),
                           child: widget.builder(height, _percentage),
@@ -203,7 +202,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                                   blurRadius: widget.elevation,
                                   offset: Offset(0.0, 4))
                             ],
-                            color: Colors.white,
+                            color: Theme.of(context).canvasColor,
                           ),
                         ),
                       ),
