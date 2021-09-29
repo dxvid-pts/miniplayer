@@ -5,6 +5,8 @@ A lightweight flutter package to simplify the creation of a miniplayer by provid
 Miniplayers are commonly used in media applications like Spotify and Youtube. A miniplayer can be expanded and minified and remains on the screen when minified until dismissed by the user.
 See the demo below for an example.
 
+Tutorial: https://www.youtube.com/watch?v=umhl2hakkcY
+
 ## Demo
 
 ![demo](./example/demo_gif/demo.gif "demo")
