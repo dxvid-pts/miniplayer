@@ -16,10 +16,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Miniplayer Demo',
-      theme: ThemeData(
-        primaryColor: Colors.grey[50],
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       home: MyHomePage(),
     );
   }

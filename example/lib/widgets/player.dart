@@ -160,7 +160,12 @@ class DetailedPlayer extends StatelessWidget {
                                   .textTheme
                                   .bodyText2!
                                   .copyWith(
-                                      color: Colors.black.withOpacity(0.55)),
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color!
+                                        .withOpacity(0.55),
+                                  ),
                             ),
                           ],
                         ),
