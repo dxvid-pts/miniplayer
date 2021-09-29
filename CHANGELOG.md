@@ -1,3 +1,8 @@
+## 1.0.1
+
+* Added dark theme support [#13](https://github.com/peterscodee/miniplayer/issues/13)
+* Removed overflow errors in the example app [#14](https://github.com/peterscodee/miniplayer/issues/14)
+
 ## 1.0.0+2
 
 * Fixed a bug introduced with the null safety release 
