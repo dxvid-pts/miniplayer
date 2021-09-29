@@ -167,7 +167,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                   onTap: () => _animateToHeight(widget.minHeight),
                   child: Opacity(
                     opacity: borderDouble(
-                        minRange: 0, maxRange: 1, value: _percentage),
+                        minRange: 0.0, maxRange: 1.0, value: _percentage),
                     child: Container(color: widget.backgroundColor),
                   ),
                 ),
@@ -184,7 +184,9 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
                         return Opacity(
                           opacity: borderDouble(
-                              minRange: 0, maxRange: 1, value: 1 - value * 0.8),
+                              minRange: 0.0,
+                              maxRange: 1.0,
+                              value: 1 - value * 0.8),
                           child: Transform.translate(
                             offset: Offset(0.0, widget.minHeight * value * 0.5),
                             child: child,
@@ -297,8 +299,8 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     ///Drag below minHeight
     else if (onDismissed != null) {
       var percentageDown = borderDouble(
-          minRange: 0,
-          maxRange: 1,
+          minRange: 0.0,
+          maxRange: 1.0,
           value: percentageFromValueInRange(
               min: widget.minHeight, max: 0, value: _dragHeight));
 
