@@ -71,7 +71,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 kBottomNavigationBarHeight - kBottomNavigationBarHeight * value,
             child: Transform.translate(
               offset: Offset(0.0, kBottomNavigationBarHeight * value * 0.5),
-              child: Opacity(opacity: opacity, child: child),
+              child: Opacity(
+                opacity: opacity,
+                child: OverflowBox(
+                  maxHeight: kBottomNavigationBarHeight,
+                  child: child,
+                ),
+              ),
             ),
           );
         },

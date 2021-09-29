@@ -97,16 +97,18 @@ class DetailedPlayer extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        text,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            buttonSkipBackwards,
-                            buttonPlayExpanded,
-                            buttonSkipForward
-                          ],
+                        Flexible(child: text),
+                        Flexible(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              buttonSkipBackwards,
+                              buttonPlayExpanded,
+                              buttonSkipForward
+                            ],
+                          ),
                         ),
-                        progressIndicator,
+                        Flexible(child: progressIndicator),
                         Container(),
                         Container(),
                       ],
