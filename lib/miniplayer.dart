@@ -191,8 +191,6 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                       valueListenable: dragDownPercentage,
                       builder:
                           (BuildContext context, double value, Widget? child) {
-                        if (value == 0) return child!;
-
                         return Opacity(
                           opacity: borderDouble(
                               minRange: 0.0,
