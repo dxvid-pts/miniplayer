@@ -24,7 +24,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  miniplayer: 1.0.1
+  miniplayer:
+    path:
+      ../
 
 dev_dependencies:
   flutter_test:
