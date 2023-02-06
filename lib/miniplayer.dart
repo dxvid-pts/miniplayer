@@ -50,6 +50,9 @@ class Miniplayer extends StatefulWidget {
   //Allows you to manually control the miniplayer in code
   final MiniplayerController? controller;
 
+  ///Used to set the color of the background box shadow
+  final Color backgroundBoxShadow;
+
   const Miniplayer({
     Key? key,
     required this.minHeight,
@@ -63,6 +66,7 @@ class Miniplayer extends StatefulWidget {
     this.onDismiss,
     this.onDismissed,
     this.controller,
+    this.backgroundBoxShadow = Colors.black45,
   }) : super(key: key);
 
   @override
@@ -209,7 +213,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                           decoration: BoxDecoration(
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                  color: Colors.black45,
+                                  color: widget.backgroundBoxShadow,
                                   blurRadius: widget.elevation,
                                   offset: Offset(0.0, 4))
                             ],
