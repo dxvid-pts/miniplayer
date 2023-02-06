@@ -30,7 +30,7 @@ class Miniplayer extends StatefulWidget {
   final Curve curve;
 
   ///Sets the background-color of the miniplayer
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   ///Option to set the animation duration
   final Duration duration;
@@ -60,7 +60,7 @@ class Miniplayer extends StatefulWidget {
     required this.builder,
     this.curve = Curves.easeOut,
     this.elevation = 0,
-    this.backgroundColor = const Color(0x70000000),
+    this.backgroundColor,
     this.valueNotifier,
     this.duration = const Duration(milliseconds: 300),
     this.onDismiss,
@@ -217,7 +217,8 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                                   blurRadius: widget.elevation,
                                   offset: Offset(0.0, 4))
                             ],
-                            color: widget.backgroundColor,
+                            color: widget.backgroundColor ??
+                                Theme.of(context).scaffoldBackgroundColor,
                           ),
                         ),
                       ),
